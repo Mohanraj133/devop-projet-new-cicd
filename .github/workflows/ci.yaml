@@ -3,9 +3,11 @@
 name: product-catalog-ci
 
 on: 
-    pull_request:
+    push:
         branches:
         - main
+permissions:
+  contents: write
 
 jobs:
     build:
@@ -14,6 +16,7 @@ jobs:
         steps:
         - name: checkout code
           uses: actions/checkout@v4
+        
 
         - name: Setup Go 1.22
           uses: actions/setup-go@v2
@@ -86,7 +89,8 @@ jobs:
         - name: checkout code
           uses: actions/checkout@v4
           with:
-            token: ${{ secrets.GITHUB_TOKEN }}
+            fetch-depth: 0
+            persist-credentials: true
 
         - name: Update tag in kubernetes deployment manifest
           run: | 
